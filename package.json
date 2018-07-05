@@ -1,0 +1,23 @@
+{
+  "name": "cordova-plugin-contacts-sync",
+  "version": "0.0.1-dev",
+  "description": "Cordova contacts syncadapter plugin",
+  "cordova": {
+    "id": "com.rubenfig.plugin.contacts",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jacquarg/cordova-plugin-calendarsync.git"
+  },
+  "keywords": [
+    "cordova",
+    "calendar",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Rubén Figueredo",
+  "license": "AGPLv3"
+}
