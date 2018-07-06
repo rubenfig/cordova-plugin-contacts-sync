@@ -59,6 +59,7 @@
         <source-file src="src/android/AccountGeneral.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/AuthenticationService.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/Authenticator.java" target-dir="src/com/rubenfig/plugin/contacts" />
+        <source-file src="src/android/AuthenticatorActivity.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/ContactClass.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/ContactsManager.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/ContactUpdateService.java" target-dir="src/com/rubenfig/plugin/contacts" />
