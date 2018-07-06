@@ -1,3 +1,4 @@
+cordova.define("com.rubenfig.plugin.contacts.contactssync", function(require, exports, module) {
 var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec');
 
@@ -10,9 +11,9 @@ var successCB = function(callback) {
 
 var contactssync = {
 
-    all: function(options, callback) {
-        argscheck.checkArgs('of', 'contactssync.all', arguments);
-        exec(successCB(callback), callback, 'ContactsSync', 'all',
+    init: function(options, callback) {
+        argscheck.checkArgs('of', 'contactssync.init', arguments);
+        exec(successCB(callback), callback, 'ContactsSync', 'init',
             [options.accountType, options.accountName]);
     },
 
@@ -20,3 +21,5 @@ var contactssync = {
 };
 
 module.exports = contactssync;
+
+});

@@ -25,6 +25,7 @@ public class ContactsManager {
 	}
 
 	public static void initiateContacts(Context context){
+
 		ContentResolver resolver = context.getContentResolver();
 		Cursor cur2 = resolver.query(RawContacts.CONTENT_URI, null,null, null,
 				Data.CONTACT_ID);

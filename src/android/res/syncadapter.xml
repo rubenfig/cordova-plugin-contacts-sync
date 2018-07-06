@@ -32,6 +32,7 @@
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
     android:contentAuthority="com.android.contacts"
     android:accountType="com.rubenfig.plugin.contacts"
+    android:allowParallelSyncs="false"
     android:isAlwaysSyncable="true"
     android:supportsUploading="true"
     android:userVisible="true"

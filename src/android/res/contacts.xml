@@ -22,7 +22,7 @@
 >
     <ContactsDataKind
         android:mimeType="vnd.android.cursor.item/com.plugin.profile"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/icon"
         android:summaryColumn="data2"
         android:detailColumn="data3"
         />

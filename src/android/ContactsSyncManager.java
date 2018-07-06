@@ -1,6 +1,12 @@
 package com.rubenfig.plugin.contacts;
 
-import android.util.Log;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import com.rubenfig.plugin.contacts.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,11 +17,10 @@ import org.apache.cordova.CordovaPlugin;
 
 public class ContactsSyncManager extends CordovaPlugin {
 
-    private CalendarAccessor calendarAccessor;
-    private EventAccessor eventAccessor;
-
     private CallbackContext callbackContext; // The callback context from which we were invoked.
     private JSONArray executeArgs;
+    private Activity context;
+    AccountManager manager = null;
 
     private static final String LOG_TAG = "Calendar Query";
 
@@ -45,14 +50,28 @@ public class ContactsSyncManager extends CordovaPlugin {
 
         this.callbackContext = callbackContext;
         this.executeArgs = args;
-
-
+        this.context=this.cordova.getActivity();
+        if(manager == null)
+        {
+            manager = AccountManager.get(cordova.getActivity());
+        }
         // Events methods.
         if (action.equals("init")) {
             final String accountType = args.getString(0);
             final String accountName = args.getString(1);
             JSONArray calendars = new JSONArray();
-            Log.i("Llego aca");
+            manager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, new AccountManagerCallback<Bundle>() {
+                @Override
+                public void run(AccountManagerFuture<Bundle> future) {
+                    try {
+                        Bundle bnd = future.getResult();
+                        Log.i("Account was created");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, null);
+            ContactsManager.initiateContacts(context);
             callbackContext.success(calendars);
 
         } else {
@@ -60,6 +79,8 @@ public class ContactsSyncManager extends CordovaPlugin {
         }
         return true;
     }
+
+
 
 
 }
