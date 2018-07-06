@@ -37,7 +37,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         ContentResolver.setIsSyncable(account, AUTHORITY, 1);
         ContentResolver.addPeriodicSync(account, AUTHORITY,
                 Bundle.EMPTY, 2);
-//        ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
+        ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
         setAccountAuthenticatorResult(res.getExtras());
         setResult(RESULT_OK, res);
         finish();

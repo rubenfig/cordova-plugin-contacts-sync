@@ -34,6 +34,6 @@
     android:accountType="com.rubenfig.plugin.contacts"
     android:allowParallelSyncs="false"
     android:isAlwaysSyncable="true"
-    android:supportsUploading="true"
+    android:supportsUploading="false"
     android:userVisible="true"
     />
