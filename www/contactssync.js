@@ -1,4 +1,3 @@
-cordova.define("com.rubenfig.plugin.contacts.contactssync", function(require, exports, module) {
 var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec');
 
@@ -22,4 +21,3 @@ var contactssync = {
 
 module.exports = contactssync;
 
-});
