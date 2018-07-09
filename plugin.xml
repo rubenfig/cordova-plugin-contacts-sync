@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.rubenfig.plugin.contacts"
+    id="cordova-plugin-contacts-sync"
     version="1.0.0">
 
     <name>ContactsSync</name>
-    <description>Cordova calendar syncadapter plugin</description>
+    <description>Cordova contacts syncadapter plugin</description>
     <license>AGPL v3</license>
     <keywords>cordova,calendars</keywords>
-    <repo>https://github.com/cozy/cordova-plugin-calendarsync.git</repo>
-    <issue>https://github.com/cozy/cordova-plugin-calendarsync/issues</issue>
+    <repo>https://github.com/rubenfig/cordova-plugin-contacts-sync.git</repo>
+    <issue>https://github.com/rubenfig/cordova-plugin-contacts-sync/issues</issue>
 
     <js-module src="www/contactssync.js" name="contactssync">
         <clobbers target="navigator.contactssync" />
