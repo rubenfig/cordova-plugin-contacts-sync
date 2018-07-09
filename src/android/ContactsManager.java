@@ -16,6 +16,7 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
 import com.rubenfig.plugin.contacts.Tools;
+import org.json.JSONObject;
 
 
 public class ContactsManager {

@@ -71,6 +71,7 @@ public class Tools {
                 continue;
             }
             try {
+                c.moveToFirst();
                 switch(c.getType(index)) {
                     case Cursor.FIELD_TYPE_NULL: break; // pass
                     case Cursor.FIELD_TYPE_INTEGER:
