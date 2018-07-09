@@ -125,6 +125,25 @@ public class ContactsManager {
 	public static List<ContactClass> getMyContacts() {
 		return null;
 	}
+
+	public static String getContactFromUri(Context context, String dataString) {
+        Uri uri = Uri.parse(dataString);
+        String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
+        String number = null;
+        Cursor cursor = context.getContentResolver().query(uri, projection,
+                null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                String name = cursor.getString(
+                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                number = cursor.getString(
+                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                cursor.close();
+            }
+            cursor.close();
+        }
+        return number;
+    }
 	
 	
 	public static void updateMyContact(Context context, String name) {

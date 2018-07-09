@@ -16,6 +16,11 @@ var contactssync = {
             [options.accountType, options.accountName]);
     },
 
+    getContactFromUri: function(options, callback) {
+        argscheck.checkArgs('of', 'contactssync.getContactFromUri', arguments);
+        exec(successCB(callback), callback, 'ContactsSync', 'getContactFromUri',
+            [options.uri]);
+    },
 
 };
 

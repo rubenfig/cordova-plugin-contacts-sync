@@ -74,7 +74,11 @@ public class ContactsSyncManager extends CordovaPlugin {
             ContactsManager.initiateContacts(context);
             callbackContext.success(calendars);
 
-        } else {
+        } else if (action.equals("getContactFromUri")) {
+             final String uri = args.getString(0);
+             callbackContext.success(ContactsManager.getContactFromUri(context, uri));
+
+        }else {
             return false;
         }
         return true;
