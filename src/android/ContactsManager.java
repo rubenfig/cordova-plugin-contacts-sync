@@ -15,6 +15,7 @@ import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
+import com.rubenfig.plugin.contacts.Tools;
 
 
 public class ContactsManager {
@@ -126,23 +127,14 @@ public class ContactsManager {
 		return null;
 	}
 
-	public static String getContactFromUri(Context context, String dataString) {
+	public static JSONObject getContactFromUri(Context context, String dataString) {
         Uri uri = Uri.parse(dataString);
         String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
-        String number = null;
+        String number = null, name = null;
         Cursor cursor = context.getContentResolver().query(uri, projection,
                 null, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                String name = cursor.getString(
-                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                number = cursor.getString(
-                        cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                cursor.close();
-            }
-            cursor.close();
-        }
-        return number;
+
+        return Tools.row2JSON(cursor, projection);
     }
 	
 	

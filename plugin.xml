@@ -65,6 +65,7 @@
         <source-file src="src/android/ContactUpdateService.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/SyncAdapter.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/SyncService.java" target-dir="src/com/rubenfig/plugin/contacts" />
+        <source-file src="src/android/Tools.java" target-dir="src/com/rubenfig/plugin/contacts" />
         <source-file src="src/android/res/syncadapter.xml" target-dir="res/xml" />
         <source-file src="src/android/res/contacts.xml" target-dir="res/xml" />
         <source-file src="src/android/res/authenticator.xml" target-dir="res/xml" />
