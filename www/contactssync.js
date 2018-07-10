@@ -8,16 +8,10 @@ var successCB = function(callback) {
     }
 }
 
-var errorCB = function(callback) {
-    return function(result) {
-        callback(result);
-    }
-}
-
 var contactssync = {
 
     init: function(callback) {
-        argscheck.checkArgs('of', 'contactssync.init');
+        argscheck.checkArgs('f', 'contactssync.init');
         exec(successCB(callback), callback, 'ContactsSync', 'init');
     },
 
