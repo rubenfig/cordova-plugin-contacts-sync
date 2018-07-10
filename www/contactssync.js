@@ -4,13 +4,17 @@ var argscheck = require('cordova/argscheck'),
 
 var successCB = function(callback) {
     return function(result) {
-        callback(result);
+        if(callback){
+            callback(result);
+        }
     }
 }
 
 var errorCB = function(callback) {
     return function(result) {
-        callback(result);
+        if(callback){
+            callback(result);
+        }
     }
 }
 
