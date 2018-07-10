@@ -11,7 +11,7 @@ var successCB = function(callback) {
 var contactssync = {
 
     init: function(callback) {
-        argscheck.checkArgs('f', 'contactssync.init');
+        //argscheck.checkArgs('f', 'contactssync.init');
         exec(successCB(callback), callback, 'ContactsSync', 'init');
     },
 
