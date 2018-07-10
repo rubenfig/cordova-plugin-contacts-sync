@@ -82,7 +82,7 @@ public class ContactsSyncManager extends CordovaPlugin {
                 return false;
             }
         }catch (Exception e){
-            callbackContext.error("Ha ocurrido un error.")
+            callbackContext.error("Ha ocurrido un error.");
         }
         return true;
     }
