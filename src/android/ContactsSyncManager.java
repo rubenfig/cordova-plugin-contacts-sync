@@ -55,30 +55,34 @@ public class ContactsSyncManager extends CordovaPlugin {
         {
             manager = AccountManager.get(cordova.getActivity());
         }
-        // Events methods.
-        if (action.equals("init")) {
+        try {
+            // Events methods.
+            if (action.equals("init")) {
 
-            JSONArray calendars = new JSONArray();
-            manager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, new AccountManagerCallback<Bundle>() {
-                @Override
-                public void run(AccountManagerFuture<Bundle> future) {
-                    try {
-                        Bundle bnd = future.getResult();
-                        Log.i("Account was created");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                JSONArray calendars = new JSONArray();
+                manager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        try {
+                            Bundle bnd = future.getResult();
+                            Log.i("Account was created");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }, null);
-            ContactsManager.initiateContacts(context);
-            callbackContext.success(calendars);
+                }, null);
+                ContactsManager.initiateContacts(context);
+                callbackContext.success(calendars);
 
-        } else if (action.equals("getContactFromUri")) {
-             final String uri = args.getString(0);
-             callbackContext.success(ContactsManager.getContactFromUri(context, uri));
+            } else if (action.equals("getContactFromUri")) {
+                final String uri = args.getString(0);
+                callbackContext.success(ContactsManager.getContactFromUri(context, uri));
 
-        }else {
-            return false;
+            } else {
+                return false;
+            }
+        }catch (Exception e){
+            callbackContext.error("Ha ocurrido un error.")
         }
         return true;
     }

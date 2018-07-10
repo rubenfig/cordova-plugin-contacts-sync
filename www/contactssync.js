@@ -8,16 +8,22 @@ var successCB = function(callback) {
     }
 }
 
+var errorCB = function(callback) {
+    return function(result) {
+        callback(result);
+    }
+}
+
 var contactssync = {
 
-    init: function(callback) {
+    init: function(callback, error) {
         argscheck.checkArgs('of', 'contactssync.init');
-        exec(successCB(callback), callback, 'ContactsSync', 'init');
+        exec(successCB(callback), errorCB(error), 'ContactsSync', 'init');
     },
 
-    getContactFromUri: function(options, callback) {
+    getContactFromUri: function(options, callback, error) {
         argscheck.checkArgs('of', 'contactssync.getContactFromUri', arguments);
-        exec(successCB(callback), callback, 'ContactsSync', 'getContactFromUri',
+        exec(successCB(callback), errorCB(error), 'ContactsSync', 'getContactFromUri',
             [options.uri]);
     },
 
