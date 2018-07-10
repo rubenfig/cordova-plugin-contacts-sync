@@ -57,8 +57,7 @@ public class ContactsSyncManager extends CordovaPlugin {
         }
         // Events methods.
         if (action.equals("init")) {
-            final String accountType = args.getString(0);
-            final String accountName = args.getString(1);
+
             JSONArray calendars = new JSONArray();
             manager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, new AccountManagerCallback<Bundle>() {
                 @Override

@@ -29,23 +29,22 @@ public class ContactsManager {
 	public static void initiateContacts(Context context){
 
 		ContentResolver resolver = context.getContentResolver();
-		Cursor cur2 = resolver.query(RawContacts.CONTENT_URI, null,null, null,
-				Data.CONTACT_ID);
-		String tableString = "";
-		if ((cur2 != null ? cur2.getCount() : 0) > 0) {
-
-			while (cur2 != null && cur2.moveToNext()) {
-				Log.i(cur2.getString(
-						cur2.getColumnIndex(RawContacts._ID))+ "-" +cur2.getString(cur2.getColumnIndex(
-						RawContacts.ACCOUNT_NAME))+ "-" +cur2.getString(cur2.getColumnIndex(
-						RawContacts.ACCOUNT_TYPE))+ "-" +cur2.getString(cur2.getColumnIndex(
-						RawContacts.DELETED)));
-
-
-			}
-
-		}
-		cur2.close();
+//		Cursor cur2 = resolver.query(RawContacts.CONTENT_URI, null,null, null,
+//				Data.CONTACT_ID);
+//		if ((cur2 != null ? cur2.getCount() : 0) > 0) {
+//
+//			while (cur2 != null && cur2.moveToNext()) {
+//				Log.i(cur2.getString(
+//						cur2.getColumnIndex(RawContacts._ID))+ "-" +cur2.getString(cur2.getColumnIndex(
+//						RawContacts.ACCOUNT_NAME))+ "-" +cur2.getString(cur2.getColumnIndex(
+//						RawContacts.ACCOUNT_TYPE))+ "-" +cur2.getString(cur2.getColumnIndex(
+//						RawContacts.DELETED)));
+//
+//
+//			}
+//
+//		}
+//		cur2.close();
 		resolver.delete(addCallerIsSyncAdapterParameter(RawContacts.CONTENT_URI,true), RawContacts.ACCOUNT_TYPE + " = ? AND " + RawContacts.ACCOUNT_NAME + " = ?", new String[] { AccountGeneral.ACCOUNT_TYPE , AccountGeneral.ACCOUNT_NAME});
 
 		Cursor cur = resolver.query(Data.CONTENT_URI,
@@ -55,7 +54,6 @@ public class ContactsManager {
 				Data.CONTACT_ID);
 		ArrayList<ContactClass> list = new ArrayList<>();
 		if ((cur != null ? cur.getCount() : 0) > 0) {
-			String[] columnNames = cur.getColumnNames();
 
 			while (cur != null && cur.moveToNext()) {
 				String id = cur.getString(
@@ -66,15 +64,8 @@ public class ContactsManager {
 						ContactsContract.CommonDataKinds.Phone.NUMBER));
 				ContactClass temp = new ContactClass(Long.parseLong(id), name, phoneNo);
 				list.add(temp);
-				for (String nameC: columnNames) {
-					tableString += String.format("%s: %s\n", nameC,
-							cur.getString(cur.getColumnIndex(nameC)));
-				}
-				tableString += "\n";
-
 			}
 		}
-		Log.i(tableString);
 
 		if(cur!=null){
 			cur.close();
@@ -130,8 +121,24 @@ public class ContactsManager {
 
 	public static JSONObject getContactFromUri(Context context, String dataString) {
         Uri uri = Uri.parse(dataString);
+//        Cursor cur2 = context.getContentResolver().query(uri, null,null, null,
+//        				null);
+//        		String tableString = "";
+//		if ((cur2 != null ? cur2.getCount() : 0) > 0) {
+//			String[] columnNames = cur2.getColumnNames();
+//
+//			while (cur2 != null && cur2.moveToNext()) {
+//				for (String nameC: columnNames) {
+//					tableString += String.format("%s: %s\n", nameC,
+//							cur2.getString(cur2.getColumnIndex(nameC)));
+//				}
+//				tableString += "\n";
+//
+//			}
+//		}
+//		Log.i(tableString);
+//		cur2.close();
         String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
-        String number = null, name = null;
         Cursor cursor = context.getContentResolver().query(uri, projection,
                 null, null, null);
 

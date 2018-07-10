@@ -67,7 +67,7 @@ public class Tools {
         JSONObject event = new JSONObject();
         for (String name : columnNames) {
             int index = c.getColumnIndex(name);
-            if (index < 0) { // No such column in the row.
+            if (index < 0 && c.getCount() == 0) { // No such column in the row.
                 continue;
             }
             try {
