@@ -31,6 +31,13 @@
             <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
             <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
         </config-file>
+        <config-file target="AndroidManifest.xml" platform="android" parent="/manifest/application/activity" mode="merge">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.cursor.item/com.plugin.profile" />
+            </intent-filter>
+        </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <service
                     android:name="com.rubenfig.plugin.contacts.AuthenticationService">
