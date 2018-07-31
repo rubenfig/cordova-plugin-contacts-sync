@@ -28,83 +28,96 @@ public class ContactsManager {
 
 	public static void initiateContacts(Context context){
 
-		ContentResolver resolver = context.getContentResolver();
-//		Cursor cur2 = resolver.query(RawContacts.CONTENT_URI, null,null, null,
-//				Data.CONTACT_ID);
-//		if ((cur2 != null ? cur2.getCount() : 0) > 0) {
-//
-//			while (cur2 != null && cur2.moveToNext()) {
-//				Log.i(cur2.getString(
-//						cur2.getColumnIndex(RawContacts._ID))+ "-" +cur2.getString(cur2.getColumnIndex(
-//						RawContacts.ACCOUNT_NAME))+ "-" +cur2.getString(cur2.getColumnIndex(
-//						RawContacts.ACCOUNT_TYPE))+ "-" +cur2.getString(cur2.getColumnIndex(
-//						RawContacts.DELETED)));
-//
-//
-//			}
-//
-//		}
-//		cur2.close();
-		resolver.delete(addCallerIsSyncAdapterParameter(RawContacts.CONTENT_URI,true), RawContacts.ACCOUNT_TYPE + " = ? AND " + RawContacts.ACCOUNT_NAME + " = ?", new String[] { AccountGeneral.ACCOUNT_TYPE , AccountGeneral.ACCOUNT_NAME});
+        ContentResolver resolver = context.getContentResolver();
+    //  Cursor cur2 = resolver.query(RawContacts.CONTENT_URI, null,null, null,
+    //				Data.CONTACT_ID);
+    //	if ((cur2 != null ? cur2.getCount() : 0) > 0) {
+    //
+    //		while (cur2 != null && cur2.moveToNext()) {
+    //			Log.i(cur2.getString(
+    //					cur2.getColumnIndex(RawContacts._ID))+ "-" +cur2.getString(cur2.getColumnIndex(
+    //					RawContacts.ACCOUNT_NAME))+ "-" +cur2.getString(cur2.getColumnIndex(
+    //					RawContacts.ACCOUNT_TYPE))+ "-" +cur2.getString(cur2.getColumnIndex(
+    //					RawContacts.DELETED)));
+    //		}
+    //
+    //	}
+    //	cur2.close();
+        resolver.delete(addCallerIsSyncAdapterParameter(RawContacts.CONTENT_URI,true), RawContacts.ACCOUNT_TYPE + " = ? AND " + RawContacts.ACCOUNT_NAME + " = ?", new String[] { AccountGeneral.ACCOUNT_TYPE , AccountGeneral.ACCOUNT_NAME});
 
-		Cursor cur = resolver.query(Data.CONTENT_URI,
-				null,
-				Data.HAS_PHONE_NUMBER + "!=0 AND (" + Data.MIMETYPE + "=?)",
-				new String[]{ ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE},
-				Data.CONTACT_ID);
-		ArrayList<ContactClass> list = new ArrayList<>();
-		if ((cur != null ? cur.getCount() : 0) > 0) {
+        Cursor cur = resolver.query(Data.CONTENT_URI,
+                null,
+                Data.HAS_PHONE_NUMBER + "!=0 AND (" + Data.MIMETYPE + "=?)",
+                new String[]{ ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE},
+                Data.CONTACT_ID);
+        ArrayList<ContactClass> list = new ArrayList<>();
+        if ((cur != null ? cur.getCount() : 0) > 0) {
 
-			while (cur != null && cur.moveToNext()) {
-				String id = cur.getString(
-						cur.getColumnIndex(Data.RAW_CONTACT_ID));
-				String name = cur.getString(cur.getColumnIndex(
-						Data.DISPLAY_NAME));
-				String phoneNo = cur.getString(cur.getColumnIndex(
-						ContactsContract.CommonDataKinds.Phone.NUMBER));
-				ContactClass temp = new ContactClass(Long.parseLong(id), name, phoneNo);
-				list.add(temp);
-			}
-		}
+            while (cur != null && cur.moveToNext()) {
+                String id = cur.getString(
+                        cur.getColumnIndex(Data.RAW_CONTACT_ID));
+                String name = cur.getString(cur.getColumnIndex(
+                        Data.DISPLAY_NAME));
+                String phoneNo = cur.getString(cur.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.NUMBER));
+                ContactClass temp = new ContactClass(Long.parseLong(id), name, phoneNo);
+                list.add(temp);
+            }
+        }
 
-		if(cur!=null){
-			cur.close();
-		}
-		ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        if(cur!=null){
+            cur.close();
+        }
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        int j =0;
+        for(int i = 0; i < list.size(); i++) {
+            ops.add(ContentProviderOperation.newInsert(addCallerIsSyncAdapterParameter(RawContacts.CONTENT_URI, true))
+                    .withValue(RawContacts.ACCOUNT_NAME, AccountGeneral.ACCOUNT_NAME)
+                    .withValue(RawContacts.ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE)
+    //					.withValue(ContactsContract.Settings.UNGROUPED_VISIBLE, 1)
 
-		for(int i = 0; i < list.size(); i++) {
-			ops.add(ContentProviderOperation.newInsert(addCallerIsSyncAdapterParameter(RawContacts.CONTENT_URI, true))
-					.withValue(RawContacts.ACCOUNT_NAME, AccountGeneral.ACCOUNT_NAME)
-					.withValue(RawContacts.ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE)
-//					.withValue(ContactsContract.Settings.UNGROUPED_VISIBLE, 1)
-
-					//.withValue(RawContacts.SOURCE_ID, 12345)
-					//.withValue(RawContacts.AGGREGATION_MODE, RawContacts.AGGREGATION_MODE_DISABLED)
-					.build());
+                    //.withValue(RawContacts.SOURCE_ID, 12345)
+                    //.withValue(RawContacts.AGGREGATION_MODE, RawContacts.AGGREGATION_MODE_DISABLED)
+                    .build());
 
 
-			ops.add(ContentProviderOperation.newInsert(addCallerIsSyncAdapterParameter(Data.CONTENT_URI, true))
-					.withValueBackReference(Data.RAW_CONTACT_ID, (3*i))
-					.withValue(Data.MIMETYPE, MIMETYPE)
-					.withValue(Data.DATA1, list.get(i).phone)
-					.withValue(Data.DATA2, "Billetera Personal")
-					.withValue(Data.DATA3, "Transferir a " + list.get(i).name)
-					.build());
-			ops.add(ContentProviderOperation.newUpdate(addCallerIsSyncAdapterParameter(ContactsContract.AggregationExceptions.CONTENT_URI, true))
-					.withValue(ContactsContract.AggregationExceptions.TYPE, ContactsContract.AggregationExceptions.TYPE_KEEP_TOGETHER)
-					.withValue(ContactsContract.AggregationExceptions.RAW_CONTACT_ID1, list.get(i).id)
-					.withValueBackReference(ContactsContract.AggregationExceptions.RAW_CONTACT_ID2, (3*i))
-					.build());
-		}
-		try {
-			ContentProviderResult[] results = resolver.applyBatch(ContactsContract.AUTHORITY, ops);
-			if (results.length == 0)
-				;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            ops.add(ContentProviderOperation.newInsert(addCallerIsSyncAdapterParameter(Data.CONTENT_URI, true))
+                    .withValueBackReference(Data.RAW_CONTACT_ID, (3*j))
+                    .withValue(Data.MIMETYPE, MIMETYPE)
+                    .withValue(Data.DATA1, list.get(i).phone)
+                    .withValue(Data.DATA2, "Billetera Personal")
+                    .withValue(Data.DATA3, "Transferir a " + list.get(i).name)
+                    .build());
+            ops.add(ContentProviderOperation.newUpdate(addCallerIsSyncAdapterParameter(ContactsContract.AggregationExceptions.CONTENT_URI, true))
+                    .withValue(ContactsContract.AggregationExceptions.TYPE, ContactsContract.AggregationExceptions.TYPE_KEEP_TOGETHER)
+                    .withValue(ContactsContract.AggregationExceptions.RAW_CONTACT_ID1, list.get(i).id)
+                    .withValueBackReference(ContactsContract.AggregationExceptions.RAW_CONTACT_ID2, (3*j))
+                    .build());
+            if (j == 100) {
+                try {
+                    resolver.applyBatch(ContactsContract.AUTHORITY, ops);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                j=0;
+                ops = new ArrayList<ContentProviderOperation>();
+            }else {
+                j++;
+            }
+
+        }
+        try {
+            if (ops.size() != 0){
+                ContentProviderResult[] results = resolver.applyBatch(ContactsContract.AUTHORITY, ops);
+                if (results.length == 0)
+                    ;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	
 	private static Uri addCallerIsSyncAdapterParameter(Uri uri, boolean isSyncOperation) {
         if (isSyncOperation) {
