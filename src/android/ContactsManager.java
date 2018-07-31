@@ -51,6 +51,8 @@ public class ContactsManager {
                 new String[]{ ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE},
                 Data.CONTACT_ID);
         ArrayList<ContactClass> list = new ArrayList<>();
+        String lastNumber = null;
+
         if ((cur != null ? cur.getCount() : 0) > 0) {
 
             while (cur != null && cur.moveToNext()) {
@@ -60,8 +62,13 @@ public class ContactsManager {
                         Data.DISPLAY_NAME));
                 String phoneNo = cur.getString(cur.getColumnIndex(
                         ContactsContract.CommonDataKinds.Phone.NUMBER));
-                ContactClass temp = new ContactClass(Long.parseLong(id), name, phoneNo);
-                list.add(temp);
+                if(phoneNo != null) {
+                    if (lastNumber == null || !phoneNo.equals(lastNumber)) {
+                        ContactClass temp = new ContactClass(Long.parseLong(id), name, phoneNo);
+                        list.add(temp);
+                        lastNumber = phoneNo.replaceAll("\\s","");;
+                    }
+                }
             }
         }
 
