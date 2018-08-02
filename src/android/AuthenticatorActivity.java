@@ -42,7 +42,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
         //mAccountManager.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, AccountGeneral.ACCOUNT_TOKEN);
         ContentResolver.setIsSyncable(account, AUTHORITY, 1);
         ContentResolver.addPeriodicSync(account, AUTHORITY,
-                Bundle.EMPTY, 2);
+                Bundle.EMPTY, 3600);
         ContentResolver.setSyncAutomatically(account, AUTHORITY, true);
         setAccountAuthenticatorResult(res.getExtras());
         setResult(RESULT_OK, res);
