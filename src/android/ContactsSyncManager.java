@@ -55,35 +55,52 @@ public class ContactsSyncManager extends CordovaPlugin {
         {
             manager = AccountManager.get(cordova.getActivity());
         }
-        try {
-            // Events methods.
-            if (action.equals("init")) {
 
-                JSONArray calendars = new JSONArray();
-                manager.addAccount(AccountGeneral.ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, new AccountManagerCallback<Bundle>() {
-                    @Override
-                    public void run(AccountManagerFuture<Bundle> future) {
-                        try {
-                            Bundle bnd = future.getResult();
-                            Log.i("Account was created");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+            // Events methods.
+        if (action.equals("init")) {
+
+            SharedPreferences settings = this.context.getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(SYNC_URL, args.getString(0));
+            editor.putString(ACCOUNT_NAME, args.getString(1));
+            editor.putString(APP_NAME, args.getString(2));
+            editor.putString(MESSAGE, args.getString(3));
+            editor.commit();
+            JSONObject response = new JSONObject();
+            try {
+
+                manager.addAccount(ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, future -> {
+                    try {
+                        Bundle bnd = future.getResult();
+                        Log.i("Account was created");
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }, null);
-                ContactsManager.initiateContacts(context);
-                callbackContext.success(calendars);
-
-            } else if (action.equals("getContactFromUri")) {
-                final String uri = args.getString(0);
-                callbackContext.success(ContactsManager.getContactFromUri(context, uri));
-
-            } else {
-                return false;
+            }catch (Exception e){
+                response.put("error", true);
+                response.put("mensaje", "Ha ocurrido un error al crear cuenta.");
+                callbackContext.success(response);
             }
-        }catch (Exception e){
-            callbackContext.success("Ha ocurrido un error.");
+            try{
+                ContactsManager.initiateContacts(context);
+                response.put("error", false);
+                response.put("mensaje", "Se creó la cuenta");
+                callbackContext.success(response);
+            }catch (Exception e){
+                response.put("error", true);
+                response.put("mensaje", "Ha ocurrido un error al inicializar contactos.");
+                callbackContext.success(response);
+            }
+
+        } else if (action.equals("getContactFromUri")) {
+            final String uri = args.getString(0);
+            callbackContext.success(ContactsManager.getContactFromUri(context, uri));
+
+        } else {
+            return false;
         }
+
         return true;
     }
 

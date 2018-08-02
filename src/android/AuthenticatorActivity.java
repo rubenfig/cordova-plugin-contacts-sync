@@ -5,10 +5,12 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 
 import static android.provider.ContactsContract.AUTHORITY;
+import static com.rubenfig.plugin.contacts.AccountGeneral.*;
 
 
 /**
@@ -26,11 +28,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("AuthenticatorActivity");
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        String accountType = ACCOUNT_TYPE;
+        String accountName = settings.getString(ACCOUNT_NAME, "");
+
         Intent res = new Intent();
-        res.putExtra(AccountManager.KEY_ACCOUNT_NAME, AccountGeneral.ACCOUNT_NAME);
-        res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, AccountGeneral.ACCOUNT_TYPE);
+        res.putExtra(AccountManager.KEY_ACCOUNT_NAME, accountName);
+        res.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
         res.putExtra(AccountManager.KEY_AUTHTOKEN, AccountGeneral.ACCOUNT_TOKEN);
-        Account account = new Account(AccountGeneral.ACCOUNT_NAME, AccountGeneral.ACCOUNT_TYPE);
+        Account account = new Account(accountName, accountType);
         mAccountManager = AccountManager.get(this);
         mAccountManager.addAccountExplicitly(account, null, null);
         //mAccountManager.setAuthToken(account, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, AccountGeneral.ACCOUNT_TOKEN);

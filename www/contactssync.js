@@ -10,9 +10,9 @@ var successCB = function(callback) {
 
 var contactssync = {
 
-    init: function(callback) {
-        //argscheck.checkArgs('f', 'contactssync.init');
-        exec(successCB(callback), callback, 'ContactsSync', 'init');
+    init: function(options, callback) {
+        argscheck.checkArgs('of', 'contactssync.init', arguments);
+        exec(successCB(callback), callback, 'ContactsSync', 'init',[options.url, options.accountName, options.appName, options.message]);
     },
 
     getContactFromUri: function(options, callback) {

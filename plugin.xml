@@ -17,6 +17,8 @@
 
     <!-- android -->
     <platform name="android">
+        <framework src="com.android.volley:volley:1.1.1" />
+
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="ContactsSync">
                 <param name="android-package" value="com.rubenfig.plugin.contacts.ContactsSyncManager"/>
