@@ -1,11 +1,11 @@
 # Contacts Sync
 
-##init
+## init
 
 Inicializa la cuenta del SyncAdapter para realizar la synchronización de contactos y agregar el botón de acción.
 
-###Ejemplo:
-
+### Ejemplo:
+```
 navigator.contactssync.init({
             url: "url.sincronizacion/contactos",
             accountName: "Contactos",
@@ -14,3 +14,4 @@ navigator.contactssync.init({
           },function (result) {
             console.log(result);
           });
+```
