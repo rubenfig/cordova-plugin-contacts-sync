@@ -5,6 +5,7 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AccountManagerFuture;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.rubenfig.plugin.contacts.Log;
 import org.json.JSONArray;
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 
+import static com.rubenfig.plugin.contacts.AccountGeneral.*;
 
 public class ContactsSyncManager extends CordovaPlugin {
 
