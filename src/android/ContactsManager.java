@@ -71,7 +71,7 @@ public class ContactsManager {
   				Data.HAS_PHONE_NUMBER + "!=0 AND (" + Data.MIMETYPE + "=?)",
   				new String[]{ ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE},
   				Data.CONTACT_ID);
-  		ArrayList<ContactClass> list = new ArrayList<>();
+  		ArrayList<ContactClass> list = new ArrayList<ContactClass>();
   		JSONArray contactsRequest = new JSONArray();
   		String lastNumber = null;
   		if ((cur != null ? cur.getCount() : 0) > 0) {
@@ -106,7 +106,9 @@ public class ContactsManager {
 		}
 
 		JsonObjectRequest postRequest = new JsonObjectRequest(url, params,
-                response -> {
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
                     try {
                         JSONArray contactosFinales = response.getJSONArray("contactos");
                         ArrayList<ContactClass> listaFinal = new ArrayList<>();
@@ -173,7 +175,13 @@ public class ContactsManager {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, error -> VolleyLog.e("Error: ", error.getMessage()));
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.e("Error: ", error.getMessage());
+                }
+            });
 		postRequest.setRetryPolicy(new DefaultRetryPolicy(
 				10000,
 				DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
