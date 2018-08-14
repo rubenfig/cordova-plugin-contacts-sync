@@ -20,6 +20,8 @@ import android.provider.ContactsContract.RawContacts;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -42,12 +44,12 @@ public class ContactsManager {
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
 
         String url = settings.getString(SYNC_URL, "");
-        String accountType = ACCOUNT_TYPE;
-        String accountName = settings.getString(ACCOUNT_NAME, "");
-        String appName = settings.getString(APP_NAME, "");
-        String message = settings.getString(MESSAGE, "");
+        final String accountType = ACCOUNT_TYPE;
+        final String accountName = settings.getString(ACCOUNT_NAME, "");
+        final String appName = settings.getString(APP_NAME, "");
+        final String message = settings.getString(MESSAGE, "");
 
-        ContentResolver resolver = context.getContentResolver();
+        final ContentResolver resolver = context.getContentResolver();
   //		Cursor cur2 = resolver.query(RawContacts.CONTENT_URI, null,null, null,
   //				Data.CONTACT_ID);
   //		if ((cur2 != null ? cur2.getCount() : 0) > 0) {
@@ -71,7 +73,7 @@ public class ContactsManager {
   				Data.HAS_PHONE_NUMBER + "!=0 AND (" + Data.MIMETYPE + "=?)",
   				new String[]{ ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE},
   				Data.CONTACT_ID);
-  		ArrayList<ContactClass> list = new ArrayList<ContactClass>();
+  		final ArrayList<ContactClass> list = new ArrayList<ContactClass>();
   		JSONArray contactsRequest = new JSONArray();
   		String lastNumber = null;
   		if ((cur != null ? cur.getCount() : 0) > 0) {
