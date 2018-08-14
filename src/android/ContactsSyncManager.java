@@ -71,12 +71,15 @@ public class ContactsSyncManager extends CordovaPlugin {
             JSONObject response = new JSONObject();
             try {
 
-                manager.addAccount(ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, future -> {
-                    try {
-                        Bundle bnd = future.getResult();
-                        Log.i("Account was created");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                manager.addAccount(ACCOUNT_TYPE, AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS, null, null, this.context, new AccountManagerCallback<Bundle>() {
+                    @Override
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        try {
+                            Bundle bnd = future.getResult();
+                            Log.i("Account was created");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, null);
             }catch (Exception e){

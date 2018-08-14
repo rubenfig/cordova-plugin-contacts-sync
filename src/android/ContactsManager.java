@@ -111,7 +111,7 @@ public class ContactsManager {
                 public void onResponse(JSONObject response) {
                     try {
                         JSONArray contactosFinales = response.getJSONArray("contactos");
-                        ArrayList<ContactClass> listaFinal = new ArrayList<>();
+                        ArrayList<ContactClass> listaFinal = new ArrayList<ContactClass>();
                         for (int i = 0; i< contactosFinales.length(); i++){
                             for (int j = 0; j < list.size(); j++){
                                 String contacto1 = contactosFinales.getString(i);
@@ -123,7 +123,7 @@ public class ContactsManager {
                             }
                         }
 
-                        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+                        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
                         int j =0;
                         for(int i = 0; i < listaFinal.size(); i++) {
                             ops.add(ContentProviderOperation.newInsert(addCallerIsSyncAdapterParameter(RawContacts.CONTENT_URI, true))
@@ -156,7 +156,7 @@ public class ContactsManager {
                                     e.printStackTrace();
                                 }
                                 j=0;
-                                ops = new ArrayList<>();
+                                ops = new ArrayList<ContentProviderOperation>();
                             }else {
                                 j++;
                             }
